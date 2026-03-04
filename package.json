@@ -10,5 +10,8 @@
   "keywords": [],
   "author": "Matheus Medeiros de Oliveira",
   "license": "ISC",
-  "packageManager": "pnpm@10.30.3"
+  "packageManager": "pnpm@10.30.3",
+  "devDependencies": {
+    "typescript": "^5.9.3"
+  }
 }
