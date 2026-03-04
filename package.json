@@ -1,0 +1,14 @@
+{
+  "name": "promo-watch",
+  "version": "v1",
+  "description": "A bot specialized in capturing and disseminating promotions",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "Matheus Medeiros de Oliveira",
+  "license": "ISC",
+  "packageManager": "pnpm@10.30.3"
+}
