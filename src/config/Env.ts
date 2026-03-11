@@ -4,11 +4,17 @@ class Env {
   public readonly TELEGRAM_TOKEN: string
   public readonly DATABASE_URL: string
   public readonly AUTHORIZED: string
+  public readonly ML_ID: string
+  public readonly ML_SECRET: string
+  public readonly ML_URI: string
 
   constructor() {
     this.TELEGRAM_TOKEN = this.required("TELEGRAM_TOKEN")
     this.DATABASE_URL = this.required("DATABASE_URL")
     this.AUTHORIZED = this.required("AUTHORIZED")
+    this.ML_ID = this.required("ML_ID")
+    this.ML_SECRET = this.required("ML_SECRET")
+    this.ML_URI = this.required("ML_URI")
   }
 
   private required(name: string): string {
