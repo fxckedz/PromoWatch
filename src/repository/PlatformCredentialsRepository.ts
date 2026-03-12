@@ -1,5 +1,6 @@
 import {prisma} from "../database/prisma.js"
 import {Platform} from "../../generated/prisma/client.js"
+import { IPlataformCredential } from "../dto/IPlatformCredential.js"
 
 export class PlatformCredentialsRepository {
 
@@ -9,14 +10,10 @@ export class PlatformCredentialsRepository {
     })
   }
 
-  async upsertCredentials(platform: Platform, data: {
-    accessToken?: string
-    refreshToken?: string
-    expiresAt?: Date
-    apiKey?: string
-    apiSecret?: string
-    associateTag?: string
-  }) {
+  async upsertCredentials(payload: IPlataformCredential) {
+
+    const {platform, ...data} = payload
+
     return prisma.platformCredential.upsert({
       where: {platform},
       update: {

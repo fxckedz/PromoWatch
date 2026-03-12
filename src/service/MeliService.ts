@@ -1,6 +1,7 @@
 import axios from "axios"
 import { env } from "../config/Env.js"
 import { PlatformCredentialsRepository } from "../repository/PlatformCredentialsRepository.js"
+import { IPlataformCredential } from "../dto/IPlatformCredential.js"
 
 export class MeliService{
   constructor(
@@ -30,11 +31,14 @@ export class MeliService{
       // AJUSTE ESSENCIAL: Transforma os segundos em uma data real
       const expiresAtDate = new Date(Date.now() + expires_in * 1000)
 
-      return this.repository.upsertCredentials("MERCADO_LIVRE", {
+      const platformCredential: IPlataformCredential = {
+        platform: "MERCADO_LIVRE",
         accessToken: access_token,
         refreshToken: refresh_token,
         expiresAt: expiresAtDate
-      })
+      }
+
+      return this.repository.upsertCredentials(platformCredential)
 
     } catch (error) {
       console.error("Erro na API do Meli:", error)
