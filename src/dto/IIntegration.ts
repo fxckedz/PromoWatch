@@ -1,6 +1,6 @@
 import { Platform } from "../prisma/enums.js"
 
-export interface IPlataformCredential {
+export interface IIntegation {
   platform: Platform
   accessToken?: string
   refreshToken?: string

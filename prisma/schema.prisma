@@ -15,35 +15,38 @@ datasource db {
 
 model Product {
   id           String   @id @default(uuid())
-  externalId   String
+  externalId   String   @map("external_id")
   platform     Platform
   title        String
-  lastPrice    Decimal
-  currentPrice Decimal
-  urlOriginal  String   @db.Text
-  urlAffiliate String   @db.Text
-  isPromo      Boolean  @default(false)
-  lastPostedAt DateTime?
-  createdAt    DateTime @default(now())
+  lastPrice    Decimal  @map("last_price")
+  currentPrice Decimal  @map("current_price")
+  urlOriginal  String   @db.Text @map("url_original")
+  urlAffiliate String   @db.Text @map("url_affiliate")
+  isPromo      Boolean  @default(false) @map("is_promo")
+  lastPostedAt DateTime? @map("last_posted_at")
+  createdAt    DateTime @default(now()) @map("created_at")
 
   @@unique([externalId, platform])
+  @@map("products")
 }
 
-model PlatformCredential {
-  id              String   @id @default(uuid())
-  platform        Platform @unique
+model Integration {
+  id           String    @id @default(uuid())
+  platform     Platform  @unique
 
-  // Campos para OAuth (Meli, Shopee)
-  accessToken     String?  @db.Text
-  refreshToken    String?  @db.Text
-  expiresAt       DateTime?
+  // Campos para OAuth
+  accessToken  String?   @db.Text @map("access_token")
+  refreshToken String?   @db.Text @map("refresh_token")
+  expiresAt    DateTime? @map("expires_at")
 
-  // Campos para APIs de Chave Fixa (Amazon)
-  apiKey          String?  @db.Text
-  apiSecret       String?  @db.Text
-  associateTag    String?  // Exclusivo da Amazon
+  // Campos para APIs de Chave Fixa
+  apiKey       String?   @db.Text @map("api_key")
+  apiSecret    String?   @db.Text @map("api_secret")
+  associateTag String?   @map("associate_tag")
 
-  updatedAt       DateTime @updatedAt
+  updatedAt    DateTime  @updatedAt @map("updated_at")
+
+  @@map("integrations")
 }
 
 enum Platform {

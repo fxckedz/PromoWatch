@@ -1,4 +1,4 @@
-import { PlatformCredentialsRepository } from "../repository/PlatformCredentialsRepository.js"
+import { IntegrationRepository } from "../repository/IntegrationRepository.js"
 import { MeliService } from "../service/MeliService.js"
 
 async function init(){
@@ -10,7 +10,7 @@ async function init(){
     process.exit(1)
   }
 
-  const repository = new PlatformCredentialsRepository()
+  const repository = new IntegrationRepository()
   const service = new MeliService(repository)
 
   try {

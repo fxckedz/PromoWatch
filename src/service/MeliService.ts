@@ -1,11 +1,11 @@
 import axios from "axios"
 import { env } from "../config/Env.js"
-import { PlatformCredentialsRepository } from "../repository/PlatformCredentialsRepository.js"
-import { IPlataformCredential } from "../dto/IPlatformCredential.js"
+import { IntegrationRepository } from "../repository/IntegrationRepository.js"
+import { IIntegation } from "../dto/IIntegration.js"
 
 export class MeliService{
   constructor(
-    private readonly repository: PlatformCredentialsRepository,
+    private readonly repository: IntegrationRepository,
     private readonly baseUrl: string = "https://api.mercadolibre.com"
   ) {}
 
@@ -31,7 +31,7 @@ export class MeliService{
       // AJUSTE ESSENCIAL: Transforma os segundos em uma data real
       const expiresAtDate = new Date(Date.now() + expires_in * 1000)
 
-      const platformCredential: IPlataformCredential = {
+      const platformCredential: IIntegation = {
         platform: "MERCADO_LIVRE",
         accessToken: access_token,
         refreshToken: refresh_token,

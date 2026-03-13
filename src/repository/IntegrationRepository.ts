@@ -1,20 +1,20 @@
 import {prisma} from "../database/prisma.js"
-import {Platform} from "../../generated/prisma/client.js"
-import { IPlataformCredential } from "../dto/IPlatformCredential.js"
+import {Platform} from "../prisma/client.js"
+import { IIntegation } from "../dto/IIntegration.js"
 
-export class PlatformCredentialsRepository {
+export class IntegrationRepository {
 
   async findByPlatform(platform: Platform){
-    return await prisma.platformCredential.findUnique({
+    return await prisma.integration.findUnique({
       where: {platform}
     })
   }
 
-  async upsertCredentials(payload: IPlataformCredential) {
+  async upsertCredentials(payload: IIntegation) {
 
     const {platform, ...data} = payload
 
-    return prisma.platformCredential.upsert({
+    return prisma.integration.upsert({
       where: {platform},
       update: {
         ...data,
@@ -28,7 +28,7 @@ export class PlatformCredentialsRepository {
   }
 
   async updateTokens(platform: Platform, accessToken: string, refreshToken: string, expiresAt: Date){
-    return prisma.platformCredential.update({
+    return prisma.integration.update({
       where: {platform},
       data: {
         accessToken,
