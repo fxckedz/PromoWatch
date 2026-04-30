@@ -7,5 +7,4 @@ export const env = {
     ML_ID: process.env.ML_ID!,
     ML_SECRET: process.env.ML_SECRET,
     ML_URI: process.env.ML_URI
-
 }
