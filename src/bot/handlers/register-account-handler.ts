@@ -1,6 +1,6 @@
 import { Context } from "grammy"
 
-export async function register(ctx: Context): Promise<void> {
+export async function registerAccountHandler(ctx: Context): Promise<void> {
   if (!ctx.chat) {
     await ctx.reply("❌ Erro: chat não identificado")
     return
