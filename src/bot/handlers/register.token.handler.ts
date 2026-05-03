@@ -1,4 +1,6 @@
 import { Context } from "grammy"
+import { registerTokenService } from "../../service/register.token.service.js"
+import { IRegisterTokenResponse } from "../../service/interfaces/token.interfaces.js"
 
 export async function registerTokenHandler(ctx: Context): Promise<void> {
   if (!ctx.chat) {
@@ -25,6 +27,31 @@ export async function registerTokenHandler(ctx: Context): Promise<void> {
     await ctx.api.editMessageText(ctx.chat.id, statusMsg.message_id, "❌ URL inválida, código TG não encontrado")
     return
   }
-  
-  await ctx.api.editMessageText(ctx.chat.id, statusMsg.message_id, `✅ Seu TG-code é válido: ${tgCode}`)
+
+  const tokenData: IRegisterTokenResponse | undefined = await registerTokenService(tgCode)
+
+  if (!tokenData) {
+    await ctx.api.editMessageText(
+      ctx.chat.id, 
+      statusMsg.message_id, 
+      "❌ Erro ao registrar token. Tente novamente mais tarde.",
+    )
+    return
+  }
+
+  await ctx.api.editMessageText(ctx.chat.id, statusMsg.message_id, `
+🔐 *Token Mercado Livre Registrado*
+
+📌 *Access Token:*
+\`${tokenData.access_token.substring(0, 20)}...\`
+
+🔄 *Refresh Token:*
+\`${tokenData.refresh_token.substring(0, 20)}...\`
+
+⏱️ *Expira em:* ${tokenData.expires_in} segundos\`
+
+👤 *User ID:* \`${tokenData.user_id}\`
+
+✅ Token registrado com sucesso!
+`)
 }
