@@ -1,8 +1,7 @@
 import { Context } from "grammy"
 import { registerTokenService } from "../../service/register.token.service.js"
-import { IRegisterTokenResponse } from "../../service/interfaces/token.interfaces.js"
 
-export async function registerTokenHandler(ctx: Context): Promise<void> {
+export async function registerTokenHandler(ctx: Context){
   if (!ctx.chat) {
     await ctx.reply("❌ Erro: chat não identificado")
     return
@@ -10,8 +9,7 @@ export async function registerTokenHandler(ctx: Context): Promise<void> {
   
   const statusMsg = await ctx.reply("🔄 Processando...")
   
-  await new Promise(resolve => setTimeout(resolve, 100))
-  
+  const telegramId = ctx.from!.id
   const fullText = ctx.message?.text || ""
   const url = fullText.split(" ")[1]
   
@@ -28,30 +26,22 @@ export async function registerTokenHandler(ctx: Context): Promise<void> {
     return
   }
 
-  const tokenData: IRegisterTokenResponse | undefined = await registerTokenService(tgCode)
+  const tokenData = await registerTokenService(tgCode, telegramId)
 
-  if (!tokenData) {
-    await ctx.api.editMessageText(
-      ctx.chat.id, 
-      statusMsg.message_id, 
-      "❌ Erro ao registrar token. Tente novamente mais tarde.",
-    )
-    return
+  if(!tokenData){
+    throw new Error("token veio vazio")
   }
 
-  await ctx.api.editMessageText(ctx.chat.id, statusMsg.message_id, `
-🔐 *Token Mercado Livre Registrado*
+  await ctx.api.editMessageText(ctx.chat.id, statusMsg.message_id, (`
+✅ *Token registrado com sucesso!*
 
-📌 *Access Token:*
-\`${tokenData.access_token.substring(0, 20)}...\`
+📊 *Dados do registro:*
+👤 Telegram ID: \`${tokenData.telegramId}\`
+🆔 Mercado Livre ID: \`${tokenData.mercadoLivreId}\`
+⏱️ Expira em: ${Math.floor(tokenData.expiresIn / 3600)} horas
+📅 Criado em: ${tokenData.createdAt.toLocaleString()}
 
-🔄 *Refresh Token:*
-\`${tokenData.refresh_token.substring(0, 20)}...\`
+🔒 Tokens sensíveis foram armazenados com segurança!
+`))
 
-⏱️ *Expira em:* ${tokenData.expires_in} segundos\`
-
-👤 *User ID:* \`${tokenData.user_id}\`
-
-✅ Token registrado com sucesso!
-`)
 }

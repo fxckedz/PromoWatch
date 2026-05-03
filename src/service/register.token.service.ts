@@ -1,9 +1,10 @@
 import { env } from "../config/config.js"
+import { registerTokenRepository } from "../repository/register.token.repository.js"
 import { IRegisterTokenParams, IRegisterTokenResponse } from "./interfaces/token.interfaces.js"
 import axios from "axios"
 import qs from "qs"
 
-export async function registerTokenService(tgCode:string) {
+export async function registerTokenService(tgCode:string, telegramId: number) {
   
   const urlParams: IRegisterTokenParams = {
     grant_type: "authorization_code",
@@ -28,7 +29,13 @@ export async function registerTokenService(tgCode:string) {
 
     const data: IRegisterTokenResponse = response.data
 
-    return data
+    return await registerTokenRepository({
+      telegramId,
+      refreshToken: data.refresh_token,
+      accessToken: data.access_token,
+      mercadoLivreId: data.user_id,
+      expiresIn: data.expires_in,
+    })
 
   } catch (error) {
     console.error("Erro no service: ", error)

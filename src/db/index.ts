@@ -4,4 +4,4 @@ import { env } from "../config/config.js"
 
 const client = createClient({ url: env.DATABASE_URL })
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-const db = drizzle({ client })
+export const db = drizzle({ client })

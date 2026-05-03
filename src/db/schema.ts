@@ -3,7 +3,7 @@ import { sqliteTable, integer, text } from "drizzle-orm/sqlite-core"
 export const oauthTokens = sqliteTable("oauth_tokens", {
   id: integer("id").primaryKey({ autoIncrement: true }),
   telegramId: integer("telegram_id").unique().notNull(),
-  mercadoLivreId: integer("mercado_livre_id").unique().notNull(),
+  mercadoLivreId: integer("mercado_livre_id").notNull(),
   accessToken: text("access_token").notNull(),
   refreshToken: text("refresh_token").notNull(),
   expiresIn: integer("expires_in").notNull(),
