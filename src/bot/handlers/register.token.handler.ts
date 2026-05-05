@@ -1,5 +1,5 @@
 import { Context } from "grammy"
-import { registerTokenService } from "../../service/register.token.service.js"
+import { getTokensFromMercadoLibreAPI } from "../../service/get.tokens.from.mercado.libre.API.js"
 
 export async function registerTokenHandler(ctx: Context){
   if (!ctx.chat) {
@@ -26,7 +26,7 @@ export async function registerTokenHandler(ctx: Context){
     return
   }
 
-  const tokenData = await registerTokenService(tgCode, telegramId)
+  const tokenData = await getTokensFromMercadoLibreAPI(tgCode, telegramId)
 
   if(!tokenData){
     throw new Error("token veio vazio")

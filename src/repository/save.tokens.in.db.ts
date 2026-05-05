@@ -10,7 +10,7 @@ export interface TokenExposedData {
   createdAt: Date
 }
 
-export async function registerTokenRepository(data: {
+export async function saveTokensInDb(data: {
   telegramId: number
   mercadoLivreId: number
   accessToken: string

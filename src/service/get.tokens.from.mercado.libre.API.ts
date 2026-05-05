@@ -1,10 +1,10 @@
 import { env } from "../config/config.js"
-import { registerTokenRepository } from "../repository/register.token.repository.js"
-import { IRegisterTokenParams, IRegisterTokenResponse } from "./interfaces/token.interfaces.js"
+import { saveTokensInDb } from "../repository/save.tokens.in.db.js"
+import { IRegisterTokenParams, IRegisterTokenResponse } from "./interfaces/service.interfaces.js"
 import axios from "axios"
 import qs from "qs"
 
-export async function registerTokenService(tgCode:string, telegramId: number) {
+export async function getTokensFromMercadoLibreAPI(tgCode:string, telegramId: number) {
   
   const urlParams: IRegisterTokenParams = {
     grant_type: "authorization_code",
@@ -29,7 +29,7 @@ export async function registerTokenService(tgCode:string, telegramId: number) {
 
     const data: IRegisterTokenResponse = response.data
 
-    return await registerTokenRepository({
+    return await saveTokensInDb({
       telegramId,
       refreshToken: data.refresh_token,
       accessToken: data.access_token,
